@@ -1,0 +1,31 @@
+{% extends "login.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block main_layout %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 content-column">
+            <h1 class="launch-coders-title">Launch Coders</h1>
+            <p class="description-text">
+                Description & Instructions. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam congue sit amet lacus eget interdum. Nam porta blandit efficitur. Maecenas sollicitudin ac est et porta.
+            </p>
+            <div class="buttons">
+                <button class="btn resource-button">Resources</button>
+                <button class="btn contact-button">Contact</button>
+            </div>
+            
+            <button class="btn calendar-button">
+                <div class="rocket-text-container">
+                    <img src="../static/images/rocket.png" alt="Rocket Icon" class="rocket-icon">
+                    Calendar
+                </div>
+            </button>
+        </div>
+        <div class="col-md-6">
+            <img src="../static/images/background_image.avif" alt="Background Image" class="background-image">
+        </div>
+    </div>
+</div>
+<img src="../static/images/curves.png" alt="Curves" class="curve-image">
+{% endblock %}

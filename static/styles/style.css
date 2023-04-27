@@ -1,0 +1,150 @@
+body {
+    background-color: #F0F0F0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    min-height: 90vh;
+}
+
+.main-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 90vh;
+}
+
+.container {
+    max-width: 1000px;
+}
+
+.header {
+    color: #224957;
+    font-size: 3.5rem;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+.subheader {
+    color: #224957;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    margin-left: 10px; 
+}
+
+.custom-input {
+    background-color: #224957;
+    color: white;
+    border-radius: 25px;
+    border: none;
+    padding-left: 20px;
+}
+
+.custom-input::placeholder {
+    color: white;
+    opacity: 1;
+}
+
+.custom-input:focus {
+    background-color: #224957;
+    box-shadow: none;
+    border-color: transparent;
+}
+
+.custom-button {
+    background-color: #20DF7F;
+    color: #224957;
+    border-radius: 25px;
+    border: none;
+    width: 100%;
+}
+
+.curve-image {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+}
+
+.launch-coders-title {
+    color: #224957;
+    font-size: 4rem;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.description-text {
+    color: #000000;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.resource-button,
+.contact-button {
+    border-radius: 5px;
+    padding: 10px 20px;
+}
+
+.resource-button {
+    background-color: #000000;
+    color: #FFFFFF;
+}
+
+.contact-button {
+    background-color: transparent;
+    color: #000000;
+    border: 2px solid #000000;
+}
+
+.calendar-button {
+    position: fixed;
+    bottom: 15px;
+    left: 15px;
+    background-color: white;
+    color: #000000;
+    border-radius: 50%;
+    width: 120px; 
+    height: 120px; 
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    z-index: 10;
+    padding: 10px 20px; 
+}
+
+.rocket-text-container {
+    position: relative;
+    top: 7px;
+}
+
+.rocket-icon {
+    width: 60px;
+    height: auto;
+}
+
+.background-image {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    object-fit: cover;
+    border-top-right-radius: 50px; 
+    border-bottom-right-radius: 50px;
+}
+
+.content-column {
+    position: relative;
+    margin-left: 10px; 
+    margin-left: -6.5rem;
+}
