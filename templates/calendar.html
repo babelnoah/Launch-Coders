@@ -1,0 +1,118 @@
+{% extends "login.html" %}
+
+{% block title %}Calendar{% endblock %}
+
+{% block main_layout %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <button class="btn prev-btn">&lt;</button>
+                    <h3 id="calendar-month-year"></h3>
+                    <button class="btn next-btn">&gt;</button>
+                </div>
+                <table class="table table-bordered calendar-table">
+                    <thead>
+                        <tr>
+                            <th>Sun</th>
+                            <th>Mon</th>
+                            <th>Tue</th>
+                            <th>Wed</th>
+                            <th>Thu</th>
+                            <th>Fri</th>
+                            <th>Sat</th>
+                        </tr>
+                    </thead>
+                    <tbody id="calendar-body">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="add-event-container">
+                <h3 class="add-event-title">Add Event</h3>
+                <form>
+                    <div class="form-group">
+                        <label for="event-date">Date: </label>
+                        <input type="text" id="event-date" class="form-control add-event-input" placeholder="MM/DD/YYYY">
+                    </div>
+                    <div class="form-group">
+                        <label for="event-name">Name: </label>
+                        <input type="text" id="event-name" class="form-control add-event-input" placeholder="Enter event name here">
+                    </div>
+                    <button type="submit" class="btn submit-button">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<button class="btn home-button" onclick="location.href='/login'">
+    <div class="rocket-text-container">
+        <img src="../static/images/rocket.png" alt="Rocket Icon" class="rocket-icon">
+        Home
+    </div>
+</button>
+<img src="../static/images/curves.png" alt="Curves" class="curve-image">
+<script>
+    const calendar = {
+        month: new Date().getMonth(),
+        year: new Date().getFullYear(),
+    };
+
+    function showCalendar() {
+        const month = calendar.month;
+        const year = calendar.year;
+        const firstDay = new Date(year, month).getDay();
+        const daysInMonth = 32 - new Date(year, month, 32).getDate();
+
+        const tbody = document.getElementById("calendar-body");
+        tbody.innerHTML = "";
+
+        let date = 1;
+        for (let i = 0; i < 6; i++) {
+            const row = document.createElement("tr");
+            for (let j = 0; j < 7; j++) {
+                if (i === 0 && j < firstDay) {
+                    const emptyCell = document.createElement("td");
+                    row.appendChild(emptyCell);
+                } else if (date > daysInMonth) {
+                    break;
+                } else {
+                    const cell = document.createElement("td");
+                    cell.innerText = date;
+                    if (date === new Date().getDate() && year === new Date().getFullYear() && month === new Date().getMonth()) {
+                        cell.classList.add("bg-primary");
+                        cell.style.color = "white";
+                    }
+                    row.appendChild(cell);
+                    date++;
+                }
+            }
+            tbody.appendChild(row);
+        }
+
+        document.getElementById("calendar-month-year").innerText = `${new Date(year, month).toLocaleString("default", { month: "long" })} ${year}`;
+    }
+
+    document.querySelector(".prev-btn").addEventListener("click", () => {
+        calendar.month--;
+        if (calendar.month < 0) {
+            calendar.month = 11;
+            calendar.year--;
+        }
+        showCalendar();
+    });
+
+    document.querySelector(".next-btn").addEventListener("click", () => {
+        calendar.month++;
+        if (calendar.month > 11) {
+            calendar.month = 0;
+            calendar.year++;
+        }
+        showCalendar();
+    });
+
+    showCalendar();
+</script>
+{% endblock %}
