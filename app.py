@@ -4,7 +4,7 @@ from models import *
 
 app = Flask(__name__)
 
-# Secret key for session
+# Epic Secret key for session
 app.secret_key = "Noah is Awesome"
 
 # Routes and methods
