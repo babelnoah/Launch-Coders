@@ -9,6 +9,8 @@
 
 .container {
     max-width: 1000px;
+    width: 90%;
+    margin: 0 auto;
 }
 
 .curve-image {
@@ -263,9 +265,13 @@ label {
 @media (max-width: 992px) {
     .background-image {
         width: 100%;
-        border-radius: 0;
-        height: 50vh;
+        max-width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-top-left-radius: 50px; 
+        border-bottom-left-radius: 50px;
     }
+    
 
     .content-column {
         margin-left: 0;
@@ -317,10 +323,9 @@ label {
 }
 
 .content-column {
-    position: relative;
-    margin-left: 10px; 
-    margin-left: -6.5rem;
-    overflow-wrap: break-word;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 20px;
 }
 /* Body */
 

@@ -48,7 +48,7 @@ def signup():
             db_session.add(new_user)
             db_session.commit()
             session['username'] = new_user.username
-            return redirect(url_for('calendar'))
+            return redirect(url_for('home'))
     return render_template('login.html')
 
 # Route for handling logout
