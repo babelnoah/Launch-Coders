@@ -4,17 +4,23 @@ from models import *
 
 app = Flask(__name__)
 
-app.secret_key = "Change Me"
+# Secret key for session
+app.secret_key = "Noah is Awesome"
 
 # Routes and methods
-@app.route('/')
-def home():
-    return render_template('index.html')
 
+# Route for the home page
+@app.route('/home')
+def home():
+     return render_template('home.html')
+
+# Route for the calendar page
 @app.route('/calendar')
 def calendar():
     return render_template('calendar.html')
 
+# Route for the login page and handling login requests
+@app.route("/")
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -28,6 +34,7 @@ def login():
             flash('Invalid username or password')
     return render_template('login.html')
 
+# Route for the signup page and handling signup requests
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
@@ -41,14 +48,16 @@ def signup():
             db_session.add(new_user)
             db_session.commit()
             session['username'] = new_user.username
-            return redirect(url_for('home'))
-    return render_template('signup.html')
+            return redirect(url_for('calendar'))
+    return render_template('login.html')
 
+# Route for handling logout
 @app.route('/logout')
 def logout():
     session.pop('username', None)
     return redirect(url_for('home'))
 
+#main
 if __name__ == "__main__":
     init_db()
     app.run(debug=True)

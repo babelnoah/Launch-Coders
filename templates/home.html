@@ -6,24 +6,59 @@
 <div class="container">
     <div class="home-grid">
         <div class="content-column">
+            <!-- Title -->
             <h1 class="launch-coders-title">Launch Coders</h1>
+            <!-- Description and instructions -->
             <p class="description-text">
-                Description & Instructions. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam congue sit amet lacus eget interdum. Nam porta blandit efficitur. Maecenas sollicitudin ac est et porta.
+                Launch Coders is a nonprofit organization committed to expanding access to computer science education in the Bay Area via engaging, project-based learning. Sign up for our after-school programs to empower your child's future in technology.
             </p>
+            <!-- Buttons for resources and logout -->
             <div class="buttons">
-                <button class="btn resource-button">Resources</button>
-                <button class="btn contact-button">Contact</button>
+                <button class="btn resource-button" onclick="showResources()">Resources</button>
+                <button class="btn logout-button" onclick="logout()">Logout</button>
             </div>
             
-            <button class="btn calendar-button">
+            <!-- Button to navigate to the calendar page -->
+            <button class="btn calendar-button" onclick="location.href='/calendar'">
                 <div class="rocket-text-container">
                     <img src="../static/images/rocket.png" alt="Rocket Icon" class="rocket-icon">
                     Calendar
                 </div>
             </button>
         </div>
+        <!-- Background image -->
         <img src="../static/images/background_image.avif" alt="Background Image" class="background-image">
     </div>
 </div>
+<!-- Curves image -->
 <img src="../static/images/curves.png" alt="Curves" class="curve-image">
+
+<script>
+    // Function to log out
+    function logout() {
+        window.location.href = "/login";
+    }
+
+    // Function to show resources (This function was generated in part by by ChatGPT)
+    function showResources() {
+        // Retrieve stored events from local storage
+        const storedEvents = JSON.parse(localStorage.getItem('events')) || {};
+        // Sort events by date
+        const sortedEvents = Object.entries(storedEvents).sort(([aDate], [bDate]) => new Date(aDate) - new Date(bDate));
+        let eventList = 'Events:\n\n';
+    
+        // Build event list string
+        sortedEvents.forEach(([date, title]) => {
+            eventList += `Date: ${date} - Title: ${title}\n`;
+        });
+    
+        // Show a message if no events are found
+        if (eventList === 'Events:\n\n') {
+            eventList = 'No events found.';
+        }
+    
+        // Display the event list
+        alert(eventList);
+    }
+</script>
 {% endblock %}

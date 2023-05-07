@@ -3,11 +3,15 @@
 {% block title %}Calendar{% endblock %}
 
 {% block main_layout %}
+<!-- Main container for calendar and forms -->
 <div class="container">
     <div class="row">
+        <!-- Calendar column -->
         <div class="col-md-6">
+            <!-- Calendar and navigation -->
             <div class="calendar-container">
                 <div class="calendar-header">
+                    <!-- Adapted from https://www.w3schools.com/howto/howto_css_calendar.asp -->
                     <button class="btn prev-btn">&lt;</button>
                     <h3 id="calendar-month-year"></h3>
                     <button class="btn next-btn">&gt;</button>
@@ -29,37 +33,62 @@
                 </table>
             </div>
         </div>
+        <!-- Forms column -->
         <div class="col-md-6">
+            <!-- Add and delete event forms -->
             <div class="add-event-container">
                 <h3 class="add-event-title">Add Event</h3>
-                <form>
+                <!-- Add Event Form -->
+                <form id="add-event-form">
                     <div class="form-group">
                         <label for="event-date">Date: </label>
                         <input type="text" id="event-date" class="form-control add-event-input" placeholder="MM/DD/YYYY">
                     </div>
                     <div class="form-group">
-                        <label for="event-name">Name: </label>
-                        <input type="text" id="event-name" class="form-control add-event-input" placeholder="Enter event name here">
+                        <label for="event-title">Event: </label>
+                        <input type="text" id="event-title" class="form-control add-event-input" placeholder="Enter name">
                     </div>
                     <button type="submit" class="btn submit-button">Submit</button>
+                </form>
+                <!-- Space between forms -->
+                <div class="space-between-forms"></div>
+                <h3 class="add-event-title">Delete Event</h3>
+                <!-- Delete event form -->
+                <form id="delete-event-form">
+                    <div class="form-group">
+                        <label for="delete-event-date">Date: </label> 
+                        <input type="text" class="form-control add-event-input" id="delete-event-date" placeholder="MM/DD/YYYY" required> 
+                    </div>
+                    <div class="form-group">
+                        <label for="delete-event-title">Event: </label>
+                        <input type="text" class="form-control add-event-input" id="delete-event-title" placeholder="Enter name" required>
+                    </div>
+                    <button type="submit" class="btn btn-danger submit-button">Delete Event</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-<button class="btn home-button" onclick="location.href='/login'">
+<!-- Home button -->
+<button class="btn calendar-button" onclick="location.href='/home'">
     <div class="rocket-text-container">
         <img src="../static/images/rocket.png" alt="Rocket Icon" class="rocket-icon">
         Home
     </div>
 </button>
+<!-- Background curves image -->
 <img src="../static/images/curves.png" alt="Curves" class="curve-image">
 <script>
+    // Calendar object to store current month and year
     const calendar = {
         month: new Date().getMonth(),
         year: new Date().getFullYear(),
     };
 
+    // Retrieve events from local storage or create an empty object
+    const events = JSON.parse(localStorage.getItem('events')) || {};
+
+    // Function to display calendar
     function showCalendar() {
         const month = calendar.month;
         const year = calendar.year;
@@ -70,8 +99,10 @@
         tbody.innerHTML = "";
 
         let date = 1;
+        // Loop through weeks
         for (let i = 0; i < 6; i++) {
             const row = document.createElement("tr");
+            // Loop through days in a week
             for (let j = 0; j < 7; j++) {
                 if (i === 0 && j < firstDay) {
                     const emptyCell = document.createElement("td");
@@ -80,7 +111,21 @@
                     break;
                 } else {
                     const cell = document.createElement("td");
+                    const cellDate = new Date(year, month, date);
+                    const cellDateString = cellDate.toLocaleDateString();
+
                     cell.innerText = date;
+                    cell.setAttribute('data-date', cellDateString);
+
+                    // Add event to the cell if exists
+                    if (events[cellDateString]) {
+                        const eventElement = document.createElement('div');
+                        eventElement.innerText = events[cellDateString];
+                        eventElement.classList.add('event');
+                        cell.appendChild(eventElement);
+                    }
+
+                    // Highlight today's date
                     if (date === new Date().getDate() && year === new Date().getFullYear() && month === new Date().getMonth()) {
                         cell.classList.add("bg-primary");
                         cell.style.color = "white";
@@ -92,9 +137,11 @@
             tbody.appendChild(row);
         }
 
+        // Update the month and year display
         document.getElementById("calendar-month-year").innerText = `${new Date(year, month).toLocaleString("default", { month: "long" })} ${year}`;
     }
 
+    // Navigate to the previous month
     document.querySelector(".prev-btn").addEventListener("click", () => {
         calendar.month--;
         if (calendar.month < 0) {
@@ -104,6 +151,7 @@
         showCalendar();
     });
 
+    // Navigate to the next month
     document.querySelector(".next-btn").addEventListener("click", () => {
         calendar.month++;
         if (calendar.month > 11) {
@@ -113,6 +161,66 @@
         showCalendar();
     });
 
+    // Function to add an event
+    function addEvent(e) {
+        e.preventDefault();
+    
+        const eventDate = document.getElementById("event-date").value;
+        const eventTitle = document.getElementById("event-title").value;
+    
+        if (!eventDate || !eventTitle) {
+            alert("Please fill in both fields.");
+            return;
+        }
+    
+        const eventDateObject = new Date(eventDate);
+        const eventDateString = eventDateObject.toLocaleDateString();
+    
+        // Save events to local storage
+        events[eventDateString] = eventTitle;
+        localStorage.setItem('events', JSON.stringify(events));
+        document.getElementById("add-event-form").reset();
+    
+        // Refresh calendar
+        showCalendar();
+    }
+    
+    // Function to delete an event
+    function deleteEvent(e) {
+        e.preventDefault();
+    
+        const eventDate = document.getElementById("delete-event-date").value;
+        const eventTitle = document.getElementById("delete-event-title").value;
+        
+        // Ensure both fields are filled in
+        if (!eventDate || !eventTitle) {
+            alert("Please fill in both fields.");
+            return;
+        }
+    
+        const eventDateObject = new Date(eventDate);
+        const eventDateString = eventDateObject.toLocaleDateString();
+
+        // Check if the event exists and the title matches
+        if (events[eventDateString] && events[eventDateString] === eventTitle) {
+            delete events[eventDateString];
+
+            // Update events in local storage
+            localStorage.setItem('events', JSON.stringify(events));
+            document.getElementById("delete-event-form").reset();
+            showCalendar();
+        } else {
+            alert("No matching event found.");
+        }
+    }
+    
+    // Listeners for form submissions
+    document.getElementById("add-event-form").addEventListener("submit", addEvent);
+    document.getElementById("delete-event-form").addEventListener("submit", deleteEvent);
+    
+    // Display initial calendar
     showCalendar();
 </script>
+
+
 {% endblock %}
