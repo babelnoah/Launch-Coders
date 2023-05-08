@@ -1,3 +1,13 @@
+"""
+
+A website that lets students and teachers of the 
+organization Launch Coders to communicate over a shared calendar.
+
+Created by: Noah Babel
+Date: April 2023
+
+"""
+
 from flask import *
 from database import init_db, db_session
 from models import *
